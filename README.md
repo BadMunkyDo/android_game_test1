@@ -6,14 +6,19 @@ Mine blocks, gather resources, build bridges and towers, and explore a procedura
 
 ## Play on your phone
 
-1. Open the hosted site, **or** run it locally and visit your computer’s IP from your phone (same Wi‑Fi):
+**Public demo (while the cloud agent tunnel is up):**  
+https://opt-warrior-displays-trusts.trycloudflare.com
+
+After this is merged and GitHub Pages is enabled, the lasting URL will be:  
+https://badmunkydo.github.io/android_game_test1/
+
+Or run it yourself and open from your phone on the same Wi‑Fi:
 
 ```bash
 python3 -m http.server 8080
 ```
 
-2. On Android Chrome: open `http://<your-computer-ip>:8080`
-3. Tap **PLAY**, then use on-screen controls:
+On Android Chrome: open the URL above (or `http://<your-computer-ip>:8080`), tap **PLAY**, then use on-screen controls:
    - **◀ ▶** move
    - **JUMP** leap
    - Tap the world to **mine** (hold) or **build** (tap)
