@@ -236,11 +236,38 @@ export class Interaction {
 
   clearTarget() {
     this.target = null;
-    this.breakProgress = 0;
-    this.breakId = null;
   }
 
-  update(dt, holding, tapBurst = false) {
+  /** Break the current target block (mobile-friendly tap to mine). */
+  tryMine() {
+    if (this.mode !== "mine" || !this.target) return false;
+    const { tx, ty } = this.target;
+    const id = this.world.get(tx, ty);
+    const meta = BLOCK_META[id];
+    if (!meta?.breakable) return false;
+
+    const key = `${tx},${ty},${id}`;
+    if (this.breakId !== key) {
+      this.breakId = key;
+      this.breakProgress = 0;
+    }
+
+    // Soft blocks break in one tap; harder blocks take 2–3 taps
+    const tapPower = meta.hardness <= 0.4 ? 1 : meta.hardness <= 0.9 ? 0.5 : 0.34;
+    this.breakProgress += tapPower;
+
+    if (this.breakProgress >= 1) {
+      this.world.set(tx, ty, BLOCK.AIR);
+      if (meta.drops) this.inventory.add(meta.drops, 1);
+      this.spawnBreakParticles(tx, ty, id);
+      this.breakProgress = 0;
+      this.breakId = null;
+      return true;
+    }
+    return false;
+  }
+
+  update(dt, holding) {
     // particles
     for (let i = this.particles.length - 1; i >= 0; i--) {
       const p = this.particles[i];
@@ -251,31 +278,20 @@ export class Interaction {
       if (p.life <= 0) this.particles.splice(i, 1);
     }
 
-    if (!holding || !this.target) {
-      if (!holding) {
-        this.breakProgress = 0;
-        this.breakId = null;
-      }
-      return;
-    }
-
-    if (this.mode !== "mine") return;
+    // Hold-to-mine still works when the pointer stays down
+    if (!holding || !this.target || this.mode !== "mine") return;
 
     const { tx, ty } = this.target;
     const id = this.world.get(tx, ty);
     const meta = BLOCK_META[id];
-    if (!meta?.breakable) {
-      this.breakProgress = 0;
-      return;
-    }
+    if (!meta?.breakable) return;
+
     const key = `${tx},${ty},${id}`;
     if (this.breakId !== key) {
       this.breakId = key;
       this.breakProgress = 0;
     }
-    // Soft blocks break quickly; tap applies a burst so short presses still chip
-    const rate = dt / Math.max(0.1, meta.hardness * 0.55);
-    this.breakProgress += rate + (tapBurst ? 0.45 : 0);
+    this.breakProgress += dt / Math.max(0.08, meta.hardness * 0.4);
     if (this.breakProgress >= 1) {
       this.world.set(tx, ty, BLOCK.AIR);
       if (meta.drops) this.inventory.add(meta.drops, 1);

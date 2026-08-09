@@ -234,17 +234,17 @@ function loop(now) {
     interaction.clearTarget();
   }
 
-  if (interaction.mode === "build" && edges.placeEdge) {
-    interaction.tryPlace();
+  if (edges.placeEdge) {
+    if (interaction.mode === "build") {
+      interaction.tryPlace();
+    } else if (interaction.tryMine()) {
+      screenShake = 0.1;
+    }
   }
 
   const prevProgress = interaction.breakProgress;
-  interaction.update(
-    dt,
-    edges.holdingWorld && interaction.mode === "mine",
-    edges.placeEdge && interaction.mode === "mine"
-  );
-  if (prevProgress > 0.8 && interaction.breakProgress === 0) {
+  interaction.update(dt, edges.holdingWorld && interaction.mode === "mine");
+  if (prevProgress > 0.5 && interaction.breakProgress === 0) {
     screenShake = 0.1;
   }
 
