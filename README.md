@@ -6,11 +6,8 @@ Mine blocks, gather resources, build bridges and towers, and explore a procedura
 
 ## Play on your phone
 
-**Public demo (while the cloud agent tunnel is up):**  
-https://opt-warrior-displays-trusts.trycloudflare.com
-
-After this is merged and GitHub Pages is enabled, the lasting URL will be:  
-https://badmunkydo.github.io/android_game_test1/
+**Play online (lasting public URL — works on cellular):**  
+https://blockscape-nephew.surge.sh
 
 Or run it yourself and open from your phone on the same Wi‑Fi:
 
