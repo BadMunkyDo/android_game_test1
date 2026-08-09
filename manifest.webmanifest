@@ -1,0 +1,11 @@
+{
+  "name": "Blockscape",
+  "short_name": "Blockscape",
+  "description": "Mine, build, and platform in a blocky world.",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#5BA3E0",
+  "theme_color": "#5BA3E0",
+  "icons": []
+}

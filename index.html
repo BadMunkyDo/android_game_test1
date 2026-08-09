@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#5BA3E0" />
+  <meta name="description" content="Mine, build, and platform in a blocky Minecraft-style world — playable on Android in your browser." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <title>Blockscape</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+
+    <div id="hud">
+      <div id="brand">BLOCKSCAPE</div>
+      <div id="mode-badge">MINE</div>
+      <div id="hint">Mine blocks · build bridges · explore</div>
+    </div>
+
+    <div id="hotbar" aria-label="Block hotbar"></div>
+
+    <div id="controls">
+      <div id="dpad">
+        <button type="button" class="ctrl" data-dir="left" aria-label="Move left">◀</button>
+        <button type="button" class="ctrl" data-dir="right" aria-label="Move right">▶</button>
+      </div>
+      <div id="actions">
+        <button type="button" class="ctrl action" id="btn-jump" aria-label="Jump">JUMP</button>
+        <button type="button" class="ctrl action" id="btn-mode" aria-label="Toggle mine or build">MODE</button>
+      </div>
+    </div>
+
+    <div id="title-screen">
+      <div class="title-panel">
+        <h1>BLOCKSCAPE</h1>
+        <p>Mine, build, and platform through a blocky world.</p>
+        <button type="button" id="btn-start">PLAY</button>
+        <ul class="how">
+          <li>◀ ▶ move · JUMP leap</li>
+          <li>Tap world to mine or place</li>
+          <li>MODE switches mine ↔ build</li>
+          <li>Hotbar picks what you place</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
