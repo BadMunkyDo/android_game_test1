@@ -4,42 +4,41 @@ A web-based Minecraft-style **2D platformer** you can play on Android (and any m
 
 Mine blocks, gather resources, build bridges and towers, and explore a procedurally generated blocky world.
 
-## Play on your phone
+## Play online (public URL)
 
-**Play online (lasting public URL — works on cellular):**  
-https://blockscape-nephew.surge.sh
+**Game (works on cellular / any network):**  
+https://blockscape-game.abounding-veil.workers.dev
 
-Or run it yourself and open from your phone on the same Wi‑Fi:
+To keep this URL forever (do this soon — temporary previews expire):
+
+1. Open the claim link:  
+   https://dash.cloudflare.com/claim-preview?claimToken=IE_R7y-UfX7Uoy_1xifZIL0R97tcmxh7ac5zqV-PIGc
+2. Sign in with Google / Apple / GitHub (free)
+3. Claim the site — then the same game URL stays live for your nephew anytime
+
+**72-hour backup mirror:**  
+https://litter.catbox.moe/6mnt8g.html
+
+After merge, you can also enable **GitHub Pages** (Settings → Pages → GitHub Actions) for:  
+`https://badmunkydo.github.io/android_game_test1/`
+
+## Controls
+
+- **◀ ▶** move · **JUMP** leap
+- Tap the world to **mine** or **place**
+- **MODE** switches mine ↔ build
+- Hotbar picks what you place
+
+Desktop: `A`/`D` or arrows, `Space`/`W` jump, click world, `F`/`Q` mode.
+
+## Run locally
 
 ```bash
 python3 -m http.server 8080
 ```
 
-On Android Chrome: open the URL above (or `http://<your-computer-ip>:8080`), tap **PLAY**, then use on-screen controls:
-   - **◀ ▶** move
-   - **JUMP** leap
-   - Tap the world to **mine** (hold) or **build** (tap)
-   - **MODE** switches mine ↔ build
-   - Hotbar selects which block to place
-
-Tip: Add the page to your Home Screen for a fullscreen, app-like feel.
-
-## Desktop controls
-
-- `A` / `D` or arrows — move  
-- `Space` / `W` — jump  
-- Click/drag — mine or place  
-- `F` or `Q` — toggle mine/build  
-- Click hotbar — select block  
-
-## Features
-
-- Procedural terrain with hills, deserts, caves, trees, and ores  
-- Breakable blocks with mining progress + particles  
-- Inventory & hotbar crafting-free building  
-- Touch-first controls sized for phones  
-- Runs entirely in the browser — no install  
+Open `http://localhost:8080` (or `play.html` for the single-file build).
 
 ## Tech
 
-Static HTML / CSS / JS (ES modules). No build step required.
+Static HTML / CSS / JS (ES modules). No build step required. `play.html` is a single-file bundle for easy sharing.
