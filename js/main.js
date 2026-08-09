@@ -226,9 +226,10 @@ function loop(now) {
 
   player.update(dt, input);
 
-  if (input.worldPointer) {
-    const scale = dpr();
-    interaction.setTargetFromScreen(input.pointerX / scale, input.pointerY / scale, cam);
+  if (edges.holdingWorld) {
+    const sx = edges.tap?.x ?? input.pointerX;
+    const sy = edges.tap?.y ?? input.pointerY;
+    interaction.setTargetFromScreen(sx, sy, cam);
   } else {
     interaction.clearTarget();
   }
@@ -238,7 +239,11 @@ function loop(now) {
   }
 
   const prevProgress = interaction.breakProgress;
-  interaction.update(dt, input.worldPointer && interaction.mode === "mine");
+  interaction.update(
+    dt,
+    edges.holdingWorld && interaction.mode === "mine",
+    edges.placeEdge && interaction.mode === "mine"
+  );
   if (prevProgress > 0.8 && interaction.breakProgress === 0) {
     screenShake = 0.1;
   }

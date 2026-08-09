@@ -208,7 +208,7 @@ export class Interaction {
     this.breakProgress = 0;
     this.breakId = null;
     this.particles = [];
-    this.reach = 4.2;
+    this.reach = 5.5;
   }
 
   toggleMode() {
@@ -240,7 +240,7 @@ export class Interaction {
     this.breakId = null;
   }
 
-  update(dt, holding) {
+  update(dt, holding, tapBurst = false) {
     // particles
     for (let i = this.particles.length - 1; i >= 0; i--) {
       const p = this.particles[i];
@@ -252,43 +252,36 @@ export class Interaction {
     }
 
     if (!holding || !this.target) {
-      this.breakProgress = 0;
-      this.breakId = null;
-      return;
-    }
-
-    const { tx, ty } = this.target;
-    if (this.mode === "mine") {
-      const id = this.world.get(tx, ty);
-      const meta = BLOCK_META[id];
-      if (!meta?.breakable) {
-        this.breakProgress = 0;
-        return;
-      }
-      const key = `${tx},${ty},${id}`;
-      if (this.breakId !== key) {
-        this.breakId = key;
-        this.breakProgress = 0;
-      }
-      this.breakProgress += dt / meta.hardness;
-      if (this.breakProgress >= 1) {
-        this.world.set(tx, ty, BLOCK.AIR);
-        if (meta.drops) this.inventory.add(meta.drops, 1);
-        this.spawnBreakParticles(tx, ty, id);
+      if (!holding) {
         this.breakProgress = 0;
         this.breakId = null;
       }
-    } else {
-      // build: place on empty cell, not inside player
-      const id = this.inventory.selectedId();
-      if (!this.inventory.has(id)) return;
-      if (this.world.get(tx, ty) !== BLOCK.AIR) return;
-      if (this.overlapsPlayer(tx, ty)) return;
-      // must be adjacent to solid or near ground for scaffolding feel — allow any empty in reach
-      if (this.inventory.take(id, 1)) {
-        this.world.set(tx, ty, id);
-      }
-      // single place per press handled by caller via placeLatch
+      return;
+    }
+
+    if (this.mode !== "mine") return;
+
+    const { tx, ty } = this.target;
+    const id = this.world.get(tx, ty);
+    const meta = BLOCK_META[id];
+    if (!meta?.breakable) {
+      this.breakProgress = 0;
+      return;
+    }
+    const key = `${tx},${ty},${id}`;
+    if (this.breakId !== key) {
+      this.breakId = key;
+      this.breakProgress = 0;
+    }
+    // Soft blocks break quickly; tap applies a burst so short presses still chip
+    const rate = dt / Math.max(0.1, meta.hardness * 0.55);
+    this.breakProgress += rate + (tapBurst ? 0.45 : 0);
+    if (this.breakProgress >= 1) {
+      this.world.set(tx, ty, BLOCK.AIR);
+      if (meta.drops) this.inventory.add(meta.drops, 1);
+      this.spawnBreakParticles(tx, ty, id);
+      this.breakProgress = 0;
+      this.breakId = null;
     }
   }
 
